@@ -1,5 +1,5 @@
 const mongoose=require("mongoose")
-const StoreSchema=mongoose.Schema({
+const StoreSchema=new mongoose.Schema({
 name:{
     type:String,
     required:true,

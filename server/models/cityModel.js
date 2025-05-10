@@ -1,9 +1,10 @@
 const mongoose=require("mongoose")
-const CitySchema=mongoose.Schema({
+const CitySchema=new mongoose.Schema({
 name:{
     type:String,
     required:true,
-    trim:true
+    trim:true,
+    unique:true,
 },
 
 },{

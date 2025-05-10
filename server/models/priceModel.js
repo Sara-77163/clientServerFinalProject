@@ -10,7 +10,7 @@ const PriceSchema= new mongoose.Schema({
         ref:'Product',
         required:true
     },
-    stroreId:{
+    storeId:{
         type:mongoose.Types.ObjectId,
         ref:'Stroe',
         required:true 
@@ -18,4 +18,4 @@ const PriceSchema= new mongoose.Schema({
 },{
     timestamps:true
 })
-module.exports=mongoose.Schema('Price',PriceSchema)
+module.exports=mongoose.model('Price',PriceSchema)
