@@ -1,5 +1,5 @@
-const storeAccess = require("../dataAcces/storeAccess")
-const priceAccess = require("../dataAcces/priceAccess")
+const storeAccess = require("../dataAccess/storeAccess")
+const priceAccess = require("../dataAccess/priceAccess")
 const getStores=async()=>{
     return await storeAccess.getStores()
 }

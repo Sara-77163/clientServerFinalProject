@@ -1,4 +1,4 @@
-const priceAccess = require("../dataAcces/priceAccess")
+const priceAccess = require("../dataAccess/priceAccess")
 const getPricesByBarcodes=async(barcodes,storeName)=>{
     return await priceAccess.getPricesByBarcodes() 
 }

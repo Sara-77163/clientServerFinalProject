@@ -14,6 +14,7 @@ app.use("/api/city",require("./routs/cityRouts"))
 app.use("/api/product",require("./routs/productRouts"))
 app.use("/api/price",require("./routs/priceRouts"))
 app.use("/api/user",require("./routs/userRouts"))
+app.use("/api/auth",require("./routs/authRouts"))
 mongoose.connection.on('err', () => {
     console.log(" connection  error " + err)
 })

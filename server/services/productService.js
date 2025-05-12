@@ -1,4 +1,4 @@
-const productAccess=require("../dataAcces/productAccess")
+const productAccess=require("../dataAccess/productAccess")
 const getProducts=async()=>{
     return await productAccess.getProducts()
 }

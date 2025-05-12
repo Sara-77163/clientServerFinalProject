@@ -1,4 +1,4 @@
-const cityAccess = require("../dataAcces/cityAccess")
+const cityAccess = require("../dataAccess/cityAccess")
 const getCities=async()=>{
     return await cityAccess.getCities()
 }

@@ -39,7 +39,7 @@ const deleteCity=async (req,res)=>{
     const {_id}=req.params
     if(!mongoose.Types.ObjectId.isValid(_id))
         return res.status(400).send("type error")
-    const deletedCity=await cityService.findById(_id)
+    const deletedCity=await cityService.deleteCity(_id)
     if(!deletedCity)
         return res.status(404).send("the city not found")
     res.json(deletedCity)
