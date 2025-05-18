@@ -1,6 +1,5 @@
 const UserSchema=require("../models/userModel")
 const userValidator=async(data)=>{
-    
     if(!data.name||!data.userName)
     
         return {status:400, message:"the name & the userName is required"}
