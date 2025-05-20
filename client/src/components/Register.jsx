@@ -10,8 +10,10 @@ import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
 import '../css/register.css';
 import { useRegisterMutation } from '../slices/users/userApiSlice';
+import { useNavigate } from 'react-router-dom';
 
  const Register = () => {
+    const navigate = useNavigate();
     const [register, { isLoading }] = useRegisterMutation();
     const [showMessage, setShowMessage] = useState(false);
     
@@ -63,7 +65,7 @@ import { useRegisterMutation } from '../slices/users/userApiSlice';
 
     return (
         <div className="form-demo">
-            <Dialog visible={showMessage} onHide={() => setShowMessage(false)} position="top" footer={dialogFooter} showHeader={false} breakpoints={{ '960px': '80vw' }} style={{ width: '30vw' }}>
+            <Dialog visible={showMessage} onHide={() => setShowMessage(false)} onClick={()=>{navigate("/layout")}} position="top" footer={dialogFooter} showHeader={false} breakpoints={{ '960px': '80vw' }} style={{ width: '30vw' }}>
                 <div className="flex justify-content-center flex-column pt-6 px-3">
                     <i className="pi pi-check-circle" style={{ fontSize: '5rem', color: 'var(--green-500)' }}></i>
                     <h5>Registration Successful!</h5>

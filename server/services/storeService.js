@@ -6,19 +6,22 @@ const getStores=async()=>{
 const getStoreById=async(_id)=>{
     return await storeAccess.getStoreById(_id)
 }
-const getListStoreByTotalPrice = (cityId, products) => {
+const getListStoreByTotalPrice = (cityId, items) => {
     const stores = storeAccess.getStoreByCity(cityId)
-    const productsId=products.map((product)=>{
-        return product._id
+    const productsId=items.map((item)=>{
+        return item.product._id
     })
-    const amount = stores.map(async (storeName) => {
+    const amount = stores.map( (storeName) => {
         const prices=priceAccess.getPricesByBarcodes(productsId,storeName)
-        const total = prices.reduce((accumulator, price) => accumulator + price.amount, 0)
+        const pricesByQuantity= prices.map((price,index)=>{
+            return price*items[index].quantity
+        })
+        const total = pricesByQuantity.reduce((accumulator, price) => accumulator + price, 0)
         const totalStore = { total, storeName }
         return totalStore
     }
     )
-    amount.sort((a, b) => { a.total - b.total })
+    amount.sort((a, b) =>  a.total - b.total )
     return amount
 }
 const addStore=async(dataStore)=>{

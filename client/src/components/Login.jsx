@@ -24,10 +24,7 @@ const Login = () => {
             const response = await login(data);
             setFormData(data);
             setShowMessage(true);
-            navigate('/layout');
-           
-                
-            
+            navigate('/layout');  
         }
         catch (err) {
             console.log(err);

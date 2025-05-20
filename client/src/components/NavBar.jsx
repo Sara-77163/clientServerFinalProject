@@ -1,15 +1,21 @@
 import React from 'react'; 
 import { TabMenu } from 'primereact/tabmenu';
-const NavBar= () => {  
+import { useNavigate } from 'react-router-dom';
+const NavBar= () => { 
+const navigate=useNavigate();
 const items = [
-        { label: 'Dashboard', icon: 'pi pi-home' },
-        { label: 'Transactions', icon: 'pi pi-chart-line' },
-        { label: 'Products', icon: 'pi pi-list' },
-        { label: 'Messages', icon: 'pi pi-inbox' }
+    
+        { label: 'Users', icon: 'pi pi-home' ,command: () => navigate('/layout/User')},
+        { label: 'Products', icon: 'pi pi-chart-line',command: () => navigate('/layout/User') },
+        { label: 'Stores', icon: 'pi pi-list' ,command: () =>navigate('/layout/User')},
+        { label: 'City', icon: 'pi pi-inbox' ,command: () => navigate('/layout/User')}
     ];
+    const handleTabChange = (e) => {
+        items[e.index].command();
+    }
     return(
           <div className="card">
-            <TabMenu model={items} />
+            <TabMenu model={items} onTabChange={(e)=>{handleTabChange(e)}}/>
         </div>
     )
  }

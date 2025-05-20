@@ -1,12 +1,7 @@
 const UserSchema=require("../models/userModel")
 const userValidator=async(data)=>{
     if(!data.name||!data.userName)
-    
         return {status:400, message:"the name & the userName is required"}
-
-        
-    
-     
     if(data.name.trim()===""||data.userName.trim()==="")
         return {status:400, message:"user name is required"}
         const user=await UserSchema.findOne({ _id: { $ne:data. _id },userName:data.userName})

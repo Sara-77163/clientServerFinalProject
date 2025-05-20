@@ -11,6 +11,7 @@ cityId:{
     required:true   
 }
 
+
 },{
        timestamps:true
 
