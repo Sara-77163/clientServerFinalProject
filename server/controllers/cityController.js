@@ -9,7 +9,7 @@ const getCityById=async (req,res)=>{
     const {_id}=req.params
     if(!mongoose.Types.ObjectId.isValid(_id))
         return res.status(400).send("type error")
-    const city=await cityService.findById(_id)
+    const city=await cityService.getcityById(_id)
     if(!city)
         return res.status(404).send("the city not found")
     res.json(city)

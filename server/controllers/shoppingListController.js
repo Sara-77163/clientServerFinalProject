@@ -13,6 +13,15 @@ const getShoppingListById = async (req, res) => {
         return res.status(404).send("the ShppingList not found")
     res.json(ShppingList)
 }
+const getShoppingListUserId = async (req, res) => {
+    const { _id } = req.params
+        if(!mongoose.Types.ObjectId.isValid(_id))
+            return res.status(400).send("type error")
+    const ShppingList = await ShoppingListService.getShoppingListByUserId(_id)
+    if (!ShppingList)   
+        return res.status(404).send("the ShppingList not found")
+    res.json(ShppingList)
+}
 const addShoppingList = async (req, res) => {
     const { nameList, productsList, userId } = req.body
     const result = await ShppingListValidator({ nameList, productsList, userId })
@@ -44,4 +53,4 @@ const deleteShoppingList = async (req, res) => {
     res.json(daletedShppingList)
 }
 
-module.exports = { getShoppingLists, getShoppingListById, addShoppingList, updateShoppingList, deleteShoppingList }
+module.exports = { getShoppingLists, getShoppingListById, addShoppingList, updateShoppingList, deleteShoppingList,getShoppingListUserId }

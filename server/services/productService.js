@@ -3,7 +3,7 @@ const getProducts=async()=>{
     return await productAccess.getProducts()
 }
 const getProductById=async (_id)=>{
-    return await productAccess.findById(_id)
+    return await productAccess.getProductById(_id)
  }
  const addProduct=async (dataProduct)=>{
      return await productAccess.addProduct(dataProduct)

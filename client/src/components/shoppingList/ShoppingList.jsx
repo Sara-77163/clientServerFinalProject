@@ -214,10 +214,10 @@ const ShoppingList = () => {
         </React.Fragment>
     );
     return(
-        <div className="flex flex-column md:flex-row justify-content-between my-5">
-            <div>
+        <div  className="  flex flex-column md:flex-row justify-content-between my-5">
+            <div  className="   mb-3 md:mb-0"style={{ flex: 1 }}>
             <Toast ref={toast} />
-            <div className="card">
+            <div className="card ">
                 <Toolbar className="mb-4" start={leftToolbarTemplate} end={rightToolbarTemplate}></Toolbar>
                 <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
                         dataKey="id"  paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
@@ -278,7 +278,7 @@ const ShoppingList = () => {
                 </div>
             </Dialog>
         </div>
-        <div>
+        <div className=" p-button-secondary mb-3 md:mb-0" >
          <ListNavigation/>   
         </div>
     

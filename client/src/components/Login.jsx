@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -9,8 +9,11 @@ import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
 import '../css/register.css';
 import { useLoginMutation } from '../slices/users/userApiSlice';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../slices/users/userSlice';
 const Login = () => {
-    const [login, { isLoading }] = useLoginMutation();
+    const dispatch = useDispatch();
+    const [login, { isSuccess, data: response }] = useLoginMutation();
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
@@ -19,12 +22,18 @@ const Login = () => {
         password: '',
     }
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(setToken(response))
+            setShowMessage(true);
+        }
+
+    }, [isSuccess])
     const handleLogin = async (data) => {
         try {
             const response = await login(data);
             setFormData(data);
-            setShowMessage(true);
-            navigate('/layout');  
+            
         }
         catch (err) {
             console.log(err);
@@ -33,7 +42,7 @@ const Login = () => {
     const onSubmit = (data) => {
         handleLogin(data)
         reset();
-        
+
     };
 
     const getFormErrorMessage = (name) => {
@@ -58,7 +67,7 @@ const Login = () => {
 
     return (
         <div className="form-demo">
-            <Dialog visible={showMessage} onHide={() => setShowMessage(false)} position="top" footer={dialogFooter} showHeader={false} breakpoints={{ '960px': '80vw' }} style={{ width: '30vw' }}>
+            <Dialog visible={showMessage} onClick={()=>{ navigate('/layout');}} onHide={() => setShowMessage(false)} position="top" footer={dialogFooter} showHeader={false} breakpoints={{ '960px': '80vw' }} style={{ width: '30vw' }}>
                 <div className="flex justify-content-center flex-column pt-6 px-3">
                     <i className="pi pi-check-circle" style={{ fontSize: '5rem', color: 'var(--green-500)' }}></i>
                     <h5>login Successful!</h5>
@@ -100,10 +109,10 @@ const Login = () => {
                                 <b>OR</b>
                             </Divider>
                         </div>
-                        <Button icon="pi pi-user-plus" label="Sign up" className="mt-2" onClick={()=>{
-                            navigate ( '/register');
+                        <Button icon="pi pi-user-plus" label="Sign up" className="mt-2" onClick={() => {
+                            navigate('/register');
                         }} />
-                            
+
                     </form>
                 </div>
             </div>

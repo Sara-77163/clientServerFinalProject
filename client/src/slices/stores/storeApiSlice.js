@@ -1,44 +1,49 @@
-import { createApi,fetchBaseQuery } from "@reduxjs/toolkit/query";
-const storeApiSlice = createApi({
-    reducerPath: 'storeApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:2222/api/store',
-    }),
+import apiSlice from "../apiSlice";
+const storeApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         addStore: builder.mutation({
             query: (store) => ({
-                url: '/',
+                url: 'store/',
                 method: 'POST',
                 body: store,
             }),
         }),
         updataStore: builder.mutation({
             query: (store) => ({
-                url: '/',
+                url: 'store/',
                 method: 'put',
                 body: store,
             }),
         }),
         getListStoreByTotalPrice: builder.mutation({
             query: (cityIdAnsItems) => ({
-                url: '/ListStoreByPrice',
+                url: 'store/ListStoreByPrice',
                 method: 'POST',
                 body: cityIdAnsItems,
             }),
         }),
         deleteStore: builder.mutation({
             query: (_id) => ({
-                url: `/${_id}`,
+                url: `store/${_id}`,
                 method: 'DELETE',
             }),
         }),
         getStores: builder.query({
-            query: () => '',
+            query: () => ({url:'store',
+                provideTags: (result) =>
+                    result
+                        ? [
+                              ...result.map(({ _id }) => ({ type: 'Store', id: _id })),
+                              { type: 'Store', id: 'LIST' },
+                          ]
+                        : [{ type: 'Store', id: 'LIST' }],
+            }
+
+            ),
         }),
         getStoresById: builder.query({
-            query: (_id) => `/${_id}`,
+            query: (_id) => `store/${_id}`,
         }),
     }),
 })
 export const { useAddStoreMutation, useUpdataStoreMutation, useGetListStoreByTotalPriceMutation, useDeleteStoreMutation, usegetStoresQuery ,useGetStoresByIdQuery} = storeApiSlice;
-export default storeApiSlice;

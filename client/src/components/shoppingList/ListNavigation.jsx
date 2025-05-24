@@ -1,9 +1,22 @@
-import React from 'react'; 
 import { Menu } from 'primereact/menu';
 import { Badge } from 'primereact/badge';
 import { Avatar } from 'primereact/avatar';
 import { classNames } from 'primereact/utils';
+import { use, useEffect, useState } from 'react';
+import {  useGetShoppingListQuery} from '../../slices/shoppingList/shoppingListApiSlice';
+import { useSelector } from 'react-redux';
 const ListNavigation = () => {
+    const [ListShopping,setListShopping]=useState([])
+    const userId=useSelector((state) => state.user.userInfo._id);
+    ///const { data, isLoading } = useGetShoppingListByUserIdQuery(userId);
+    const { data, isLoading } = useGetShoppingListQuery(userId);
+     useEffect(()=>{
+if (!isLoading && data) 
+{
+        setListShopping(data)
+        console.log(data)
+}
+     },[ListShopping,isLoading ,data])
         const itemRenderer = (item) => (
         <div className='p-menuitem-content'>
             <a className="flex align-items-center p-menuitem-link">
@@ -113,7 +126,7 @@ const ListNavigation = () => {
 
      return (
         <div className="card flex justify-content-center">
-            <Menu model={items} className="w-full md:w-15rem" />
+            <Menu model={ListShopping} className="w-full md:w-15rem" scrollable="false" />
         </div>)
 }
 export default ListNavigation;

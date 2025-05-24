@@ -3,7 +3,7 @@ const getCities=async()=>{
     return await cityAccess.getCities()
 }
 const getcityById=async (_id)=>{
-     return await cityAccess.findById(_id)
+     return await cityAccess.getCityById(_id)
 }
 const addCity=async (dataCity)=>{
    return await cityAccess.addCity(dataCity)

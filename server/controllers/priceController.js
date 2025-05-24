@@ -9,7 +9,7 @@ const getPriceById = async (req, res) => {
     const { _id } = req.params
     if (!mongoose.Types.ObjectId.isValid(_id))
         return res.status(400).send("type error")
-    const price = await priceService.findById(_id)
+    const price = await priceService.getPriceById(_id)
     if (!price)
         return res.status(404).send("the price not found")
     res.json(price)

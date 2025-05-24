@@ -7,6 +7,10 @@ const getShoppingListById=async (_id)=>{
     const ShoppingList=await ShoppingListSchema.findById(_id).lean()
     return ShoppingList
  }
+ const getShoppingListByUserId=async (_id)=>{
+    const ShoppingList=await ShoppingListSchema.find({userId:_id}).lean()
+    return ShoppingList
+ }
  const addShoppingList=async (dataShoppingList)=>{
      const newShoppingList=await ShoppingListSchema.create({dataShoppingList})
      return newShoppingList
@@ -27,4 +31,4 @@ const deleteShoppingList=async (_id)=>{
     const daletedShoppingList= await ShoppingList.deleteOne()
     return daletedShoppingList
 }
-module.exports={getShoppingLists,getShoppingListById,addShoppingList,updateShoppingList,deleteShoppingList}
+module.exports={getShoppingListByUserId,getShoppingLists,getShoppingListById,addShoppingList,updateShoppingList,deleteShoppingList}
