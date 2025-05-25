@@ -8,11 +8,13 @@ const getShoppingListById=async (_id)=>{
     return ShoppingList
  }
  const getShoppingListByUserId=async (_id)=>{
-    const ShoppingList=await ShoppingListSchema.find({userId:_id}).lean()
+    const ShoppingList=await ShoppingListSchema.find({userId:_id}).populate({path:'productsList.product',
+        select:'name barcode img'
+    }).lean()
     return ShoppingList
  }
  const addShoppingList=async (dataShoppingList)=>{
-     const newShoppingList=await ShoppingListSchema.create({dataShoppingList})
+     const newShoppingList=await ShoppingListSchema.create({nameList:dataShoppingList.nameList, productsList:dataShoppingList.productsList, userId:dataShoppingList.userId})
      return newShoppingList
  }
  const updateShoppingList=async(sL)=>{

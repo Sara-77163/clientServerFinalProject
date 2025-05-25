@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useRef } from 'react';
+import { Toast } from 'primereact/toast';
 import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -13,32 +15,53 @@ import { useDispatch } from 'react-redux';
 import { setToken } from '../slices/users/userSlice';
 const Login = () => {
     const dispatch = useDispatch();
-    const [login, { isSuccess, data: response }] = useLoginMutation();
+    const [login, { isError, error, isSuccess, data: response }] = useLoginMutation();
     const [showMessage, setShowMessage] = useState(false);
     const [formData, setFormData] = useState({});
+    const toast = useRef(null);
+
     const navigate = useNavigate();
     const defaultValues = {
         userName: '',
         password: '',
     }
     const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
+    const showMultiple = (message, isSuccessOrError) => {
+        if (isSuccessOrError ===0) {
+            toast.current.show(
+                { severity: 'error', summary: 'Error', detail: message, life: 3150 })
+        }
+
+        else {
+            toast.current.show(
+                { severity: 'success', summary: 'Success', detail: 'Message Content', life: 3000,sticky: true })            
+        }
+        
+    };
     useEffect(() => {
         if (isSuccess) {
             dispatch(setToken(response))
-            setShowMessage(true);
+            showMultiple("",1);
+            navigate('/layout')
+        }
+        if (isError) {
+            console.log(error,0)
+            showMultiple(error?.data?.message)
         }
 
-    }, [isSuccess])
+    }, [isSuccess, isError])
+
     const handleLogin = async (data) => {
         try {
-            const response = await login(data);
+            const response1 = await login(data);
             setFormData(data);
-            
         }
         catch (err) {
             console.log(err);
+
         }
     }
+
     const onSubmit = (data) => {
         handleLogin(data)
         reset();
@@ -67,7 +90,11 @@ const Login = () => {
 
     return (
         <div className="form-demo">
-            <Dialog visible={showMessage} onClick={()=>{ navigate('/layout');}} onHide={() => setShowMessage(false)} position="top" footer={dialogFooter} showHeader={false} breakpoints={{ '960px': '80vw' }} style={{ width: '30vw' }}>
+            <div className="card flex justify-content-center gap-2">
+                <Toast ref={toast} />
+
+            </div>
+            {/* <Dialog visible={showMessage} onClick={()=>{ navigate('/layout');}} onHide={() => setShowMessage(false)} position="top" footer={dialogFooter} showHeader={false} breakpoints={{ '960px': '80vw' }} style={{ width: '30vw' }}>
                 <div className="flex justify-content-center flex-column pt-6 px-3">
                     <i className="pi pi-check-circle" style={{ fontSize: '5rem', color: 'var(--green-500)' }}></i>
                     <h5>login Successful!</h5>
@@ -75,7 +102,7 @@ const Login = () => {
                         You are logged in under the username <b>{formData.userName}</b>
                     </p>
                 </div>
-            </Dialog>
+            </Dialog> */}
 
             <div className="flex justify-content-center">
                 <div className="card">

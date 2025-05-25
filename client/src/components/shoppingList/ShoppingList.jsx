@@ -11,8 +11,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import '../../css/shoppingList.css';
-import ListNavigation from './ListNavigation';
-const ShoppingList = () => {
+const ShoppingList = ({ detailList }) => {
     let emptyProduct = {
         id: null,
         name: '',
@@ -33,12 +32,25 @@ const ShoppingList = () => {
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
+    const [listProducts, setListProducts] = useState([]);
     const toast = useRef(null);
     const dt = useRef(null);
 
-    // useEffect(() => {
-    //     ProductService.getProducts().then((data) => setProducts(data));
-    // }, []);
+    useEffect(() => {
+        console.log("aaaaaa", detailList)
+        if (detailList.productsList) {
+            setListProducts(
+                detailList.productsList.map((productList) => ({
+                    barcode: productList.product.barcode,
+                    name: productList.product.name,
+                    quantity: productList.quantity,
+                    image: productList.product.image,
+                }))
+            )
+        }
+
+
+    }, [detailList]);
 
     const openNew = () => {
         setProduct(emptyProduct);
@@ -213,16 +225,15 @@ const ShoppingList = () => {
             <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteSelectedProducts} />
         </React.Fragment>
     );
-    return(
-        <div  className="  flex flex-column md:flex-row justify-content-between my-5">
-            <div  className="   mb-3 md:mb-0"style={{ flex: 1 }}>
+    return (
+        <div className="   mb-3 md:mb-0" style={{ flex: 1 }}>
             <Toast ref={toast} />
             <div className="card ">
                 <Toolbar className="mb-4" start={leftToolbarTemplate} end={rightToolbarTemplate}></Toolbar>
-                <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
-                        dataKey="id"  paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
-                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" globalFilter={globalFilter} header={header}>
+                <DataTable ref={dt} value={listProducts} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                    dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
+                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" globalFilter={globalFilter} header={header}>
                     <Column selectionMode="multiple" exportable={false}></Column>
                     <Column field="barcode" header="Barcode" sortable style={{ minWidth: '12rem' }}></Column>
                     <Column field="name" header="Name" sortable style={{ minWidth: '16rem' }}></Column>
@@ -234,7 +245,7 @@ const ShoppingList = () => {
 
             <Dialog visible={productDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                 {product.image && <img src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`} alt={product.image} className="product-image block m-auto pb-3" />}
-                 <div className="formgrid grid">
+                <div className="formgrid grid">
                     <div className="field col">
                         <label htmlFor="quantity" className="font-bold">
                             Barcode
@@ -249,13 +260,13 @@ const ShoppingList = () => {
                     <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
                     {submitted && !product.name && <small className="p-error">Name is required.</small>}
                 </div>
-                 
+
                 <div className="formgrid grid">
                     <div className="field col">
                         <label htmlFor="quantity" className="font-bold">
                             Quantity
                         </label>
-                        <InputNumber id="quantity"  onValueChange={(e) => onInputNumberChange(e, 'quantity')} />
+                        <InputNumber id="quantity" onValueChange={(e) => onInputNumberChange(e, 'quantity')} />
                     </div>
                 </div>
             </Dialog>
@@ -278,12 +289,10 @@ const ShoppingList = () => {
                 </div>
             </Dialog>
         </div>
-        <div className=" p-button-secondary mb-3 md:mb-0" >
-         <ListNavigation/>   
-        </div>
-    
-</div>
-         
+
+
+
+
     )
 }
 export default ShoppingList;
