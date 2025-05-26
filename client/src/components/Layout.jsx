@@ -6,8 +6,7 @@ const Layout= () => {
         <>
           <NavBar className="block bg-primary font-bold text-center p-4 border-round mb-3"/>
           <Outlet className="block bg-primary font-bold text-center p-4 border-round mb-3"/>
-        </>
-      
+        </> 
     )
 
 

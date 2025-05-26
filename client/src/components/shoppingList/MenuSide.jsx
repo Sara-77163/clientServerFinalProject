@@ -4,7 +4,6 @@ import { Toast } from 'primereact/toast';
 import { useSelector } from 'react-redux';
 import { useGetShoppingListByUserIdQuery } from '../../slices/shoppingList/shoppingListApiSlice';
 import ShoppingList from './ShoppingList';
-import { set } from 'react-hook-form';
 
 const MenuSide=()=> {
     const toast = useRef(null);

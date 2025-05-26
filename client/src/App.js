@@ -6,21 +6,17 @@ import Register from './components/Register';
 import Layout from './components/Layout';
 import MenuSide from './components/shoppingList/MenuSide';
 import { useSelector } from 'react-redux';
-import PrivateRoute from './components/PrivateRoute';
-
 function App() {
-  const token=useSelector((state)=>{state.user.token})
-  const isAuthenticated = token ? true : false;
+  //const token=useSelector((state)=>{state.user.token})
   return(
     <>
      <Router>
         <Routes>
         <Route index  element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <PrivateRoute path="/layout" component={<Layout />} isAuthenticated={isAuthenticated}>
+        <Route path="/layout" element={<Layout />} >
         <Route index element={<MenuSide />}/>
-        </PrivateRoute>
-          
+        </Route>
         </Routes>
      </Router>
       
