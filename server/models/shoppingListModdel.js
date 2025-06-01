@@ -20,7 +20,7 @@ const ShppingListSchama=new mongoose.Schema({
     ],
         
         
-        required:true
+        default:[]
     },
     userId:{
         type:mongoose.Types.ObjectId,

@@ -16,10 +16,10 @@ const storeApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         getListStoreByTotalPrice: builder.mutation({
-            query: (cityIdAnsItems) => ({
+            query: (cityIdAndItems) => ({
                 url: 'store/ListStoreByPrice',
                 method: 'POST',
-                body: cityIdAnsItems,
+                body: cityIdAndItems,
             }),
         }),
         deleteStore: builder.mutation({
@@ -30,13 +30,13 @@ const storeApiSlice = apiSlice.injectEndpoints({
         }),
         getStores: builder.query({
             query: () => ({url:'store',
-                provideTags: (result) =>
-                    result
-                        ? [
-                              ...result.map(({ _id }) => ({ type: 'Store', id: _id })),
-                              { type: 'Store', id: 'LIST' },
-                          ]
-                        : [{ type: 'Store', id: 'LIST' }],
+                // provideTags: (result) =>
+                //     result
+                //         ? [
+                //               ...result.map(({ _id }) => ({ type: 'Store', id: _id })),
+                //               { type: 'Store', id: 'LIST' },
+                //           ]
+                //         : [{ type: 'Store', id: 'LIST' }],
             }
 
             ),
@@ -46,4 +46,4 @@ const storeApiSlice = apiSlice.injectEndpoints({
         }),
     }),
 })
-export const { useAddStoreMutation, useUpdataStoreMutation, useGetListStoreByTotalPriceMutation, useDeleteStoreMutation, usegetStoresQuery ,useGetStoresByIdQuery} = storeApiSlice;
+export const { useAddStoreMutation, useUpdataStoreMutation, useGetListStoreByTotalPriceMutation, useDeleteStoreMutation, useGetStoresQuery ,useGetStoresByIdQuery} = storeApiSlice;

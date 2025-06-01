@@ -9,7 +9,7 @@ const getPriceById=async (_id)=>{
      return await priceAccess.getPriceById(_id)
 }
 const addPrice=async (dataPrice)=>{
-   return await priceAccess.addPrice(dataprice)
+   return await priceAccess.addPrice(dataPrice)
 }
 const updatePrice=async(dataPrice)=>{
    return await priceAccess.updatePrice(dataPrice)

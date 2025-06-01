@@ -2,7 +2,7 @@ const ShoppingListSchema = require("../models/shoppingListModdel")
 const mongoose = require("mongoose")
 const UserSchema = require("../models/userModel")
 const shoppingListValidator = async (data) => {
-    if (!data.userId || !data.productsList || !data.nameList || data.productsList.length === 0)
+    if (!data.userId  || !data.nameList)
         return { status: 400, message: "the userId & the productsList & the nameList is required" }
     if (data.nameList.trim() === "")
         return { status: 400, message: "user name is required" }
@@ -11,7 +11,7 @@ const shoppingListValidator = async (data) => {
     const user = await UserSchema.findById(data.userId/*._id*/)
     if (!user)
         return { status: 404, message: "the user not found" }
-    const ShoppingListbyUser = await ShoppingListSchema.findOne({ userId: data.userId/*./*._id*/, nameList: data.nameList }).lean()
+    const ShoppingListbyUser = await ShoppingListSchema.findOne({ _id:{$ne:data._id},userId: data.userId, nameList: data.nameList }).lean()
     if (ShoppingListbyUser) {
         return { status: 400, message: "the nameList must be unique" }
     }

@@ -25,6 +25,7 @@ const getShoppingListUserId = async (req, res) => {
 }
 const addShoppingList = async (req, res) => {
     const { nameList, productsList, userId } = req.body
+    console.log(productsList)
     const result = await shoppingListValidator({ nameList, productsList, userId })
     if (result.status !== 200)
         return res.status(result.status).send(result.message)
@@ -33,6 +34,7 @@ const addShoppingList = async (req, res) => {
 }
 const updateShoppingList = async (req, res) => {
     const { _id, nameList, productsList, userId } = req.body
+    console.log(productsList)
     if (!mongoose.Types.ObjectId.isValid(_id))
         return res.status(400).send("type error")
     const ShppingList = await ShoppingListService.getShoppingListById(_id)
@@ -41,7 +43,7 @@ const updateShoppingList = async (req, res) => {
     const result = await shoppingListValidator({ _id, nameList, productsList, userId  })
     if (result.status !== 200)
         return res.status(result.status).send(result.message)
-    const updateShppingList = await ShoppingListService.updateShoppingList({ _id, nameList, productsList, userId  })
+    const updateShppingList = await ShoppingListService.updateShoppingList({ _id, nameList, productsList, userId })
     res.json(updateShppingList)
 }
 const deleteShoppingList = async (req, res) => {

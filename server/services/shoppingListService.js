@@ -11,7 +11,8 @@ const getShoppingListById=async (_id)=>{
  const addShoppingList=async (dataShoppingList)=>{
      return await shoppingListAccess.addShoppingList(dataShoppingList)
  }
- const updateShoppingList=async(ddataShoppingListP)=>{
+ const updateShoppingList=async(dP)=>{
+    console.log(dP.userId)
     return await shoppingListAccess.updateShoppingList(dP)
 }
 const deleteShoppingList=async (_id)=>{

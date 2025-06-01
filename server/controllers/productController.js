@@ -3,6 +3,7 @@ const { productValidator } = require("../dataValidator/productValidator")
 const productService = require("../services/productService")
 const mongoose = require("mongoose")
 const getProducts = async (req, res) => {
+    
     const products = await productService.getProducts()
     res.json(products)
 }
