@@ -16,6 +16,8 @@ const getListStoreByTotalPrice = async(cityId, items) => {
     const prices= await priceAccess.getPricesByBarcodes(productsId,stores)
     const amount = stores.map( (store) => {
         const pricesByStore = prices.filter(price => price.storeId === store._id)
+        if(productsId.length!=pricesByStore.length)
+            return null;
         // if (pricesByStore.length === 0) {
         //     return { total: 0, storeName: store.name }
         // }
@@ -28,8 +30,10 @@ const getListStoreByTotalPrice = async(cityId, items) => {
         return totalStore
     }
     )
-    amount.sort((a, b) =>  a.total - b.total )
-    return amount
+    const filteredAmount = amount.filter((entry) => entry !== null);
+    const result = filteredAmount.sort((a, b) => a.total - b.total);
+    console.log("result", result)
+    return result
 }
 const addStore=async(dataStore)=>{
    return await storeAccess.addStore(dataStore)

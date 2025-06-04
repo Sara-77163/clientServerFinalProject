@@ -36,7 +36,6 @@ const Login = () => {
             toast.current.show(
                 { severity: 'success', summary: 'Success', detail: 'Message Content', life: 3000,sticky: true })            
         }
-        
     };
     useEffect(() => {
         if (isSuccess) {
@@ -45,8 +44,7 @@ const Login = () => {
             navigate('/layout')
         }
         if (isError) {
-            console.log(error,0)
-            showMultiple(error?.data?.message)
+            showMultiple(error?.data?.message,0)
         }
 
     }, [isSuccess, isError])

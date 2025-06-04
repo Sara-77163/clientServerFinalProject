@@ -20,26 +20,26 @@ const userApiSlice = apiSlice.injectEndpoints({
         }),
         addUser:builder.mutation({
             query: (user)=>({
-                url: 'users/',
+                url: 'user/',
                 method: 'POST',
                 body: user,
             })
         }),
         updateUser:builder.mutation({
             query: (user)=>({
-                url: `users/`,
+                url: `user/`,
                 method: 'PUT',
                 body: user,
             })
         }),
         deleteUser:builder.mutation({
             query: (_id)=>({
-                url: `users/${_id}`,
+                url: `user/${_id}`,
                 method: 'DELETE',
             })
         }),
         getUsers:builder.query({
-            query: () => 'users',
+            query: () => 'user',
           })
         })
     })

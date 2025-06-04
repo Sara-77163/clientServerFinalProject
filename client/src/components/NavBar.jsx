@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { TabMenu } from 'primereact/tabmenu';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { Card } from 'primereact/card';
 const NavBar = () => {
     const user = useSelector((state) => state.user.userInfo);
     const navigate = useNavigate();
@@ -13,6 +11,10 @@ const NavBar = () => {
         { label: 'Products', icon: 'pi pi-chart-line', command: () => navigate('/layout/User') },
         { label: 'Stores', icon: 'pi pi-list', command: () => navigate('/layout/User') },
         { label: 'City', icon: 'pi pi-inbox', command: () => navigate('/layout/User') },
+        { label: 'LogOut', icon: 'pi pi-inbox', command: () => navigate('/layout/logOut') },
+        ...(user.permission === 'admin'
+            ? [{ label: 'Users', icon: 'pi pi-inbox', command: () => navigate('/layout/users') }]
+            : [])
     ];
     const handleTabChange = (e) => {
         items[e.index].command();
@@ -31,11 +33,10 @@ const NavBar = () => {
                 alignItems: 'center',
                 zIndex: 2
             }}>
-                <div style={{ marginLeft: '10px' , width: '300px', minWidth: '200px', padding: '12px' }} title="פרטי משתמש">
+                <div style={{ marginLeft: '10px', width: '300px', minWidth: '200px', padding: '12px' }} title="פרטי משתמש">
                     <div>
                         <div><b>name:</b> {user.name}</div>
-                        <div><b>אימייל:</b> {user.email}</div>
-                        <div><b>userName</b> {user.useName}</div>
+                        <div><b>userName:</b> {user.userName}</div>
                     </div>
                 </div>
             </div>

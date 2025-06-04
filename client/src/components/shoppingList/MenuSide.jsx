@@ -23,7 +23,7 @@ const MenuSide = () => {
     const userId = useSelector((state) => state.user.userInfo._id);
     const { data, isLoading } = useGetShoppingListByUserIdQuery(userId)
     const [addShppingList, { data: addedShoppingLis, isSuccess: isSuccessAddList }] = useAddShoppingListMutation();
-    const [removeShoppingList, { isSuccess: isSuccessRemove,data:datadeleted }] = useDeleteShoppingListMutation();
+    const [removeShoppingList, { isSuccess: isSuccessRemove,data:datadeleted}] = useDeleteShoppingListMutation();
     useEffect(() => {
         if (ListShopping.length > 0) {
             setShoppingListToRemove(ListShopping.find(list => list.nameList === valueRemove));
@@ -59,7 +59,7 @@ const MenuSide = () => {
             setListShopping(datadeleted)
 
         }
-    },isSuccessRemove)
+    },[isSuccessRemove])
     const footerContentAdd = (
         <div>
             <Button label="No" icon="pi pi-times" onClick={() => setVisibleAdd(false)} className="p-button-text" />
@@ -101,15 +101,15 @@ const MenuSide = () => {
 
     const search = (event) => {
         setItemsRemove(nameListsShopping.filter(item => item.includes(event.query))) 
-        if(itemsRemove.length===0)
-        setItemsRemove(["no suggestion"])
+        // if(itemsRemove.length===0)
+        // setItemsRemove(["no suggestion"])
            
     }
 
 
     const items = [
         {
-            label: 'Documents',
+            label: 'History',
             items: [
                 {
                     label: 'New',
@@ -120,7 +120,7 @@ const MenuSide = () => {
                 },
                 {
                     label: 'Delete',
-                    icon: 'pi pi-search',
+                    icon: 'pi pi-trash',
                     command: () => {
                         setVisibleRemove(true)
                     }

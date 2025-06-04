@@ -48,9 +48,9 @@ const deleteStore=async (req,res)=>{
 }
 const getListStoreByTotalPrice = async (req, res) => {
     const { cityId, items } = req.body
-    
     //validatethe parametrs
-    const amount= storeService.getListStoreByTotalPrice(cityId, items)
+    const amount=  await storeService.getListStoreByTotalPrice(cityId, items)
+    console.log(amount,"amount")
     res.json(amount)
 }
 

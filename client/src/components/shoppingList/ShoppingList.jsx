@@ -11,7 +11,6 @@ import { InputText } from 'primereact/inputtext';
 import '../../css/searchStore.css';
 import SearchStore from './SearchStore';
 import AddProduct from './AddProduct';
-import { useUpdataProductMutation } from '../../slices/products/productApiSlice';
 import { useSelector } from 'react-redux';
 import { useUpdataShoppingListMutation } from '../../slices/shoppingList/shoppingListApiSlice';
 const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
@@ -21,7 +20,7 @@ const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
         barcode: "",
         name: "",
         quantity: 0,
-        img:"none"
+        img: "none"
     };
     const [products, setProducts] = useState(detailList.productsList);
     const [productDialog, setProductDialog] = useState(false);
@@ -32,28 +31,27 @@ const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const [onHide, setHide] = useState(false)
-    const [edit,setEdit]=useState(null)
+    const [edit, setEdit] = useState(null)
     const toast = useRef(null);
     const dt = useRef(null);
     const [deletedProduct, { data: updataedList, isSuccess: succesDeleteProduct }] = useUpdataShoppingListMutation()
     const userId = useSelector((state => state.user.userInfo._id))
     useEffect(() => {
         console.log("detailList", detailList)
-        if (detailList.productsList?.length > 0) {
-            console.log(detailList.productsList, "aaaaa")
-            setProducts(
-                detailList.productsList.map((productList) => {
-                    return {
-                        _id: productList._id,
-                        idProduct: productList.product._id,
-                        barcode: productList.product.barcode,
-                        name: productList.product.name,
-                        quantity: productList.quantity,
-                        img: productList.product.img,
-                    }
-                })
-            )
-        }
+        console.log(detailList.productsList, "aaaaa")
+        setProducts(
+            detailList.productsList?.map((productList) => {
+                return {
+                    _id: productList._id,
+                    idProduct: productList.product._id,
+                    barcode: productList.product.barcode,
+                    name: productList.product.name,
+                    quantity: productList.quantity,
+                    img: productList.product.img,
+                }
+            })
+        )
+
 
     }, [detailList]);
     useEffect(() => {
@@ -98,7 +96,7 @@ const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
 
 
     const editProduct = (product) => {
-        const prod={product:{_id:product.idProduct,name:product.name,barcode:product.barcode,img:product.img},quantity:product.quantity,_id:product._id}
+        const prod = { product: { _id: product.idProduct, name: product.name, barcode: product.barcode, img: product.img }, quantity: product.quantity, _id: product._id }
         setEdit(prod)
         setProductDialog(true);
     };
@@ -135,7 +133,7 @@ const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
 
     const deleteSelectedProducts = () => {
         let _products = products.filter((val) => !selectedProducts.includes(val));
-        console.log("aaaaaaaa",_products)
+        console.log("aaaaaaaa", _products)
         let newProducts = _products.map((product) => {
             return {
                 product: {
@@ -145,7 +143,7 @@ const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
             }
         })
         try {
-            deletedProduct({  _id: detailList._id,nameList: detailList.nameList, productsList: newProducts, userId })
+            deletedProduct({ _id: detailList._id, nameList: detailList.nameList, productsList: newProducts, userId })
 
         }
         catch (err) {
@@ -174,7 +172,8 @@ const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
     };
 
     const imageBodyTemplate = (rowData) => {
-        //return <img src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`} alt={rowData.image} className="shadow-2 border-round" style={{ width: '64px' }} />;
+        //
+        // return <img src={`https://primefaces.org/cdn/primereact/images/product/${rowData.image}`} alt={rowData.image} className="shadow-2 border-round" style={{ width: '64px' }} />;
     };
     const actionBodyTemplate = (rowData) => {
         return (
@@ -211,7 +210,7 @@ const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
             <Toast ref={toast} />
             <div className="card ">
                 <Toolbar className="mb-4" start={leftToolbarTemplate} center={middelToolbarTemplate} end={rightToolbarTemplate}></Toolbar>
-                <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => {
+                <DataTable ref={dt} value={!visibleAdd ?products:[]} selection={selectedProducts} onSelectionChange={(e) => {
                     setSelectedProducts(e.value)
                 }}
                     dataKey="_id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
@@ -245,7 +244,7 @@ const ShoppingList = ({ detailList, setDetailList, visibleAdd }) => {
                     {product && <span>Are you sure you want to delete the selected products?</span>}
                 </div>
             </Dialog>
-            {productDialog ? <AddProduct setDetailList={setDetailList} detailList={detailList} setHide={setHide}  edit={edit} setEdit={setEdit}/> : <></>}
+            {productDialog ? <AddProduct setDetailList={setDetailList} detailList={detailList} setHide={setHide} edit={edit} setEdit={setEdit} /> : <></>}
         </div>
     )
 }

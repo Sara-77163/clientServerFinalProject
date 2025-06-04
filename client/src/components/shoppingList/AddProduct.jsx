@@ -10,14 +10,14 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
     const { data: dataProduct, isSuccess: successProducts } = useGetProductQuery()
-    const [updadataShoppingList, { data: updatedShoppingList, isSuccess: isSuccessUpdate, isError: updataError,status }] = useUpdataShoppingListMutation();
+    const [updadataShoppingList, { data: updatedShoppingList, isSuccess: isSuccessUpdate, isError: updataError, status }] = useUpdataShoppingListMutation();
     const [itemsProduct, setItemsProduct] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const toast = useRef(null);
     const userId = useSelector((state => state.user.userInfo._id))
     useEffect(() => {
         if (successProducts) {
-            setItemsProduct(dataProduct.map(product => ({ label: product.name, value: product })));
+            setItemsProduct(dataProduct.map(product => ( product.name )));
         }
         if (isSuccessUpdate) {
             setDetailList(updatedShoppingList)
@@ -25,14 +25,14 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
             setHide(true)
         }
         if (updataError) {
-            // toast.current.show(
-            //     { severity: 'error', summary: 'Error', detail: status, life: 3150 })
+            toast.current.show(
+                { severity: 'error', summary: 'Error', detail: status, life: 3150 })
         }
     }, [dataProduct, isSuccessUpdate, updataError])
     const search = (event) => {
         if (dataProduct) {
             const _newDataProduct = dataProduct.filter(item => item.name.includes(event.query))
-            setItemsProduct(_newDataProduct.map(product => ({ label: product.name, value: product })))
+            setItemsProduct(_newDataProduct.map(product => ( product.name )))
         }
     }
 
@@ -42,36 +42,36 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
         formState: { errors },
     } = useForm({
         defaultValues: {
-            product: edit?.product || null,
+            product: edit?.product.name || "",
             Quantity: edit?.quantity || 1
         }
     })
 
     const onSubmit = (data) => {
-        console.log("aaa",edit)
+        console.log("onsubmit",data.product)
         try {
-            const newData = { product: data.product._id, quantity: data.Quantity }
-            console.log(data.product._id)
-            console.log("newData", newData)
-            if (!edit)
-                updadataShoppingList({ _id: detailList._id, nameList: detailList.nameList, productsList: [...detailList?.productsList, newData], userId })
-            else {
-                const updateList = detailList.productsList.map((prod) => {
-                    if (prod._id === edit._id)
-                        return newData
-                    return prod
-                })
-                setEdit(null)
-                updadataShoppingList({ _id: detailList._id, nameList: detailList.nameList, productsList: updateList, userId })
+            const newData = dataProduct?.find((prod) => prod.name === data.product)
+            if (newData) {
+                const product = { product: newData._id, quantity: data.Quantity }
+                if (!edit) {
+                    updadataShoppingList({ _id: detailList._id, nameList: detailList.nameList, productsList: [...detailList?.productsList, product], userId })
+                }
+                else {
+                    const updateList = detailList.productsList.map((prod) => {
+                        if (prod._id === edit._id)
+                            return{ ...product,_id:prod._id}
+                        return prod
+                    })
+                    console.log(updateList)
+                    setEdit(null)
+                    updadataShoppingList({ _id: detailList._id, nameList: detailList.nameList, productsList: updateList, userId })
+                }
             }
 
         }
         catch (err) {
             console.log(err)
         }
-
-
-
     }
     const productDialogFooter = (
         <React.Fragment>
@@ -96,20 +96,15 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
                         render={({ field }) => (
                             <AutoComplete
                                 {...field}
-                                value={selectedProduct ? selectedProduct.name : ""}
+                                value={field.value.label || field.value}
                                 suggestions={itemsProduct}
                                 completeMethod={search}
-                                onChange={(selectedOption) => {
-                                    console.log("selectedOption", selectedOption)
-                                    if (selectedOption) {
-                                        setSelectedProduct(selectedOption ? selectedOption.value.value : null)
-                                        field.onChange(selectedOption ? selectedOption.value.value : null);
-                                    }
-
+                                onChange={(e) => {
+                                    field.onChange(e.value)
                                 }}
+
                                 dropdown
-                                itemTemplate={(item) => (
-                                    <div>{item.label}</div>)}
+                              
                             />
                         )}
                     />

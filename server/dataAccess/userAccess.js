@@ -6,7 +6,7 @@ const getUsers=async()=>{
 }
 const getUserById=async (_id)=>{
   
-    const user=await UserSchema.findById(_id).lean()
+    const user=await UserSchema.findById(_id)
 
     return(user)
 }
@@ -28,7 +28,7 @@ const updateUser=async(data)=>{
     return updateUser
 }
 const deleteUser=async (_id)=>{
-    const user=await getUserById(_id)
+    const user=await UserSchema.findById(_id)
     if(!user)
         return undefined
     const deletedUser= await user.deleteOne()

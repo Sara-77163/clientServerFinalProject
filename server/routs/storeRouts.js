@@ -11,3 +11,4 @@ router.post("/",/*isAdmin,*/storeController.addStore)
 router.put("/",isAdmin,storeController.updateStore)
 router.delete("/:_id",isAdmin,storeController.deleteStore)
 module.exports=router
+

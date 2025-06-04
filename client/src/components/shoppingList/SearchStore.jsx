@@ -1,23 +1,35 @@
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { useGetCitiesQuery } from "../../slices/city/cityApiSlice";
 import { Dropdown } from 'primereact/dropdown';
 import { useGetListStoreByTotalPriceMutation } from "../../slices/stores/storeApiSlice";
 import '../../css/searchStore.css';
+import { useNavigate } from "react-router-dom";
 const SearchStore = ({ products }) => {
     const [getListStoreByTotalPrice, { data = [], isLoading: isLoadingGetListStoreByTotalPrice, isError: isErrorGetListStoreByTotalPrice, isSuccess: isSuccessGetListStoreByTotalPrice }] = useGetListStoreByTotalPriceMutation();
     const { data: citiess = [], isLoading, isError, isSuccess } = useGetCitiesQuery();
+    const Navigate = useNavigate();
     const [selectedCity, setSelectedCity] = useState(null);
-    const handleOkClick = () => {
-        setVisible(false)
-        console.log(products)
-         if (selectedCity&& products?.length > 0) {
-            console.log(selectedCity.code)
-
-            getListStoreByTotalPrice({ cityId: selectedCity.code, items: products })
-            console.log("products", data)
+    useEffect(() => {
+        if (isSuccessGetListStoreByTotalPrice) {
+            console.log("isSuccessGetListStoreByTotalPrice")
+            if (data.length === 0) {
+                alert("No stores found for the selected city and products.try another city or products");
+            }
+            else{
+            Navigate('/storeResult', { state: { resultData: data } });
+            }
         }
+    }, [isSuccessGetListStoreByTotalPrice])
+    const handleOkClick = () => {
+        console.log("products",products)
+        if (selectedCity && products?.length > 0) {
+            console.log(selectedCity.code)
+           
+                getListStoreByTotalPrice({ cityId: selectedCity.code, items: products })
+        }
+         setVisible(false)
     }
     const cities = citiess.map(city => {
         return { name: city.name, code: city._id };
