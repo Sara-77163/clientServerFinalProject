@@ -26,7 +26,7 @@ const updatePrice = async (req, res) => {
     const { _id, price, productId, storeId } = req.body
     if (!mongoose.Types.ObjectId.isValid(_id))
         return res.status(400).send("type error")
-    const changePrice = await priceService.findById(_id)
+    const changePrice = await priceService.getPriceById(_id)
     if (!changePrice)
         return res.status(404).send("the price not found")
     const result = await priceValidator({ _id, price, productId, storeId })
@@ -40,7 +40,7 @@ const deletePrice = async (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(_id))
             return res.status(400).send("type error")
     const daletedPrice = await priceService.deletePrice(_id)
-    if (!price)
+    if (!daletedPrice)
         return res.status(404).send("the price not found")
     res.json(daletedPrice)
 }

@@ -13,7 +13,9 @@ const NavBar = () => {
         { label: 'City', icon: 'pi pi-inbox', command: () => navigate('/layout/User') },
         { label: 'LogOut', icon: 'pi pi-inbox', command: () => navigate('/layout/logOut') },
         ...(user.permission === 'admin'
-            ? [{ label: 'Users', icon: 'pi pi-inbox', command: () => navigate('/layout/users') }]
+            ? [{ label: 'Users', icon: 'pi pi-inbox', command: () => navigate('/layout/users') },
+                { label: 'Prices', icon: 'pi pi-inbox', command: () => navigate('/layout/prices') }
+            ]
             : [])
     ];
     const handleTabChange = (e) => {

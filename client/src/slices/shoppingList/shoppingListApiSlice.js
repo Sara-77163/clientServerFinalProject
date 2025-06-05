@@ -23,13 +23,13 @@ const shoppingListApiSlice = apiSlice.injectEndpoints({
         }),
         getShoppingList: builder.query({
             query: () => ({url:'ShoppingList',
-                provideTags: (result) =>
-                    result
-                        ? [
-                              ...result.map(({ _id }) => ({ type: 'ShoppingList', id: _id })),
-                              { type: 'ShoppingList', id: 'LIST' },
-                          ]
-                        : [{ type: 'ShoppingList', id: 'LIST' }],
+                // provideTags: (result) =>
+                //     result
+                //         ? [
+                //               ...result.map(({ _id }) => ({ type: 'ShoppingList', id: _id })),
+                //               { type: 'ShoppingList', id: 'LIST' },
+                //           ]
+                //         : [{ type: 'ShoppingList', id: 'LIST' }],
             }
 
             ),

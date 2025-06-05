@@ -12,7 +12,7 @@ const PriceSchema= new mongoose.Schema({
     },
     storeId:{
         type:mongoose.Types.ObjectId,
-        ref:'Stroe',
+        ref:'Store',
         required:true 
     }
 },{

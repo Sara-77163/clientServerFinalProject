@@ -8,6 +8,7 @@ import LogOut from './components/LogOut';
 import StoreResult from './components/shoppingList/StoreResult';
 import User from './components/admin/Users';
 import ProtectedRoute from './components/ProtectedRoute';
+import AllPrices from './components/admin/prices/AllPrices';
 function App() {
   return (
     <>
@@ -19,8 +20,10 @@ function App() {
           <Route path="/layout" element={<Layout />} >
             <Route index element={<MenuSide />} />
             <Route path="logOut" element={<LogOut />} />
+            <Route path="prices" element={<AllPrices/>}/>
             <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
               <Route path="users" element={<User />} />
+              
             </Route>
           </Route>
           <Route path="storeResult" element={<StoreResult />} />

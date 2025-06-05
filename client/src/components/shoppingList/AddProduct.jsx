@@ -17,7 +17,7 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
     const userId = useSelector((state => state.user.userInfo._id))
     useEffect(() => {
         if (successProducts) {
-            setItemsProduct(dataProduct.map(product => ( product.name )));
+            setItemsProduct(dataProduct.map(product => (product.name)));
         }
         if (isSuccessUpdate) {
             setDetailList(updatedShoppingList)
@@ -32,7 +32,7 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
     const search = (event) => {
         if (dataProduct) {
             const _newDataProduct = dataProduct.filter(item => item.name.includes(event.query))
-            setItemsProduct(_newDataProduct.map(product => ( product.name )))
+            setItemsProduct(_newDataProduct.map(product => (product.name)))
         }
     }
 
@@ -48,7 +48,7 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
     })
 
     const onSubmit = (data) => {
-        console.log("onsubmit",data.product)
+        console.log("onsubmit", data.product)
         try {
             const newData = dataProduct?.find((prod) => prod.name === data.product)
             if (newData) {
@@ -59,7 +59,7 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
                 else {
                     const updateList = detailList.productsList.map((prod) => {
                         if (prod._id === edit._id)
-                            return{ ...product,_id:prod._id}
+                            return { ...product, _id: prod._id }
                         return prod
                     })
                     console.log(updateList)
@@ -75,7 +75,7 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
     }
     const productDialogFooter = (
         <React.Fragment>
-            <Button label="Cancel" icon="pi pi-times" outlined onClick={() => { setHide(true) }} />
+            <Button label="Cancel" icon="pi pi-times" outlined onClick={() => { setEdit(null); setHide(true) }} />
             <Button label="Save" icon="pi pi-check" onClick={handleSubmit(onSubmit)} />
         </React.Fragment>
     );
@@ -104,7 +104,7 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
                                 }}
 
                                 dropdown
-                              
+
                             />
                         )}
                     />
