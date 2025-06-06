@@ -12,7 +12,7 @@ const login = async (req, res) => {
     const user = await UserSchema.findOne({ userName }).lean()
     if (!user)
         return  res.status(401).json({ message: 'Unauthorized' })
-    // const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password)
     // if (!isMatch) {
     //     return res.status(401).json({ message: 'Unauthorized' })
     // }

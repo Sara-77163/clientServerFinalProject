@@ -44,7 +44,7 @@ const MenuSide = () => {
             setListShopping(data)
         }
        
-    }, [isLoading, data, isSuccessAddList])
+    }, [isLoading, data])
     useEffect(()=>{
  if (isSuccessAddList) {
             console.log(addedShoppingLis.nameList)
@@ -74,7 +74,7 @@ const MenuSide = () => {
     );
     const addNewList = () => {
         try {
-            addShppingList({ nameList, productsList: detailList.productsList, userId })
+            addShppingList({ nameList, productsList: []/*detailList.productsList*/, userId })
             setNameList("")
         }
         catch (error) {
@@ -100,10 +100,7 @@ const MenuSide = () => {
     }
 
     const search = (event) => {
-        setItemsRemove(nameListsShopping.filter(item => item.includes(event.query))) 
-        // if(itemsRemove.length===0)
-        // setItemsRemove(["no suggestion"])
-           
+        setItemsRemove(nameListsShopping.filter(item => item.includes(event.query)))         
     }
 
 

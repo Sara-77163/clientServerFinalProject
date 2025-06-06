@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TabMenu } from 'primereact/tabmenu';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 const NavBar = () => {
     const user = useSelector((state) => state.user.userInfo);
     const navigate = useNavigate();
+    const [activeIndex, setActiveIndex] = useState(0); 
     const items = [
-
-        { label: 'Users', icon: 'pi pi-home', command: () => navigate('/layout/User') },
-        { label: 'Products', icon: 'pi pi-chart-line', command: () => navigate('/layout/User') },
-        { label: 'Stores', icon: 'pi pi-list', command: () => navigate('/layout/User') },
-        { label: 'City', icon: 'pi pi-inbox', command: () => navigate('/layout/User') },
-        { label: 'LogOut', icon: 'pi pi-inbox', command: () => navigate('/layout/logOut') },
+        { label: 'Shooping List', icon: 'pi pi-home', command: () => navigate('/layout') },
+        { label: 'Log Out', icon: 'pi pi-inbox', command: () => navigate('/layout/logOut') },
         ...(user.permission === 'admin'
             ? [{ label: 'Users', icon: 'pi pi-inbox', command: () => navigate('/layout/users') },
                 { label: 'Prices', icon: 'pi pi-inbox', command: () => navigate('/layout/prices') }
@@ -19,12 +16,13 @@ const NavBar = () => {
             : [])
     ];
     const handleTabChange = (e) => {
+          setActiveIndex(e.index); 
         items[e.index].command();
     }
     return (
         <div className="navbar-container" style={{ position: 'relative', width: '100%' }}>
             <div className="card  " style={{ width: '100%' }}>
-                <TabMenu model={items} onTabChange={(e) => { handleTabChange(e) }} />
+                <TabMenu model={items}activeIndex={activeIndex}  onTabChange={(e) => { handleTabChange(e) }} />
             </div >
             <div className="user-info" style={{
                 position: 'absolute',

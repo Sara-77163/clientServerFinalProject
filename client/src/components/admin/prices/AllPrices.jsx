@@ -16,10 +16,10 @@ const AllPrices = () => {
     let emptyPrice = {
         _id: null,
         store: "",
-        price:0,
+        price: 0,
         product: "",
     };
-   
+
     const [prices, setPrices] = useState([]);
     const [priceDialog, setPriceDialog] = useState(false);
     const [deletePriceDialog, setDeletePriceDialog] = useState(false);
@@ -37,14 +37,14 @@ const AllPrices = () => {
     const userId = useSelector((state => state.user.userInfo._id))
     useEffect(() => {
         if (pricesIsSuccess) {
-            console.log( "server",dataprices)
+            console.log("server", dataprices)
             setPrices(
                 dataprices.map((price) => {
                     return {
                         _id: price._id,
                         store: price.storeId?.name,
-                        product:price.productId.name,
-                        price:price.price
+                        product: price.productId.name,
+                        price: price.price
                     }
                 })
             )
@@ -96,7 +96,7 @@ const AllPrices = () => {
 
 
     const editPrice = (price) => {
-        const pricerr = {  _id: price._id, name: price.name, store: price.store, product: price.product,price:price.price  }
+        const pricerr = { _id: price._id, name: price.name, store: price.store, product: price.product, price: price.price }
         setEdit(pricerr)
         setPriceDialog(true);
     };
@@ -129,21 +129,19 @@ const AllPrices = () => {
         setDeletePricesDialog(true);
     };
 
-    // const deleteSelectedPrices = () => {
-    //     let _price = price.filter((val) => !selectedPrices.includes(val));
-    //     console.log("aaaaaaaa", _price)
-    //     let newPrices = _price.map((price) => {
-    //         return {
-    //             price: {
-    //                 _id: price.idPrice
-    //             },
-    //             quantity: price.quantity
-    //         }
-    //     })
-  
-    //     setDeletePricesDialog(false);
-    //     setSelectedPrices(null);
-    // };
+    const deleteSelectedPrices = async() => {
+        let _price = prices.filter((val) => selectedPrices.includes(val));
+        console.log(_price,"sssssss")
+        try {
+            const promises = _price.map(_price => deletedPrice(_price._id).unwrap());
+            await Promise.all(promises);
+           setPrices(prev=>prev.filter(item => !_price.includes(item))) ;
+        } catch (error) {
+            console.error("Error deleting objects:", error);
+        }
+        setDeletePricesDialog(false);
+        setSelectedPrices(null);
+    };
 
 
 
@@ -159,7 +157,7 @@ const AllPrices = () => {
         return <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />;
     };
 
-  
+
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
@@ -187,15 +185,15 @@ const AllPrices = () => {
     const deletePricesDialogFooter = (
         <React.Fragment>
             <Button label="No" icon="pi pi-times" outlined onClick={hideDeletePricesDialog} />
-            <Button label="Yes" icon="pi pi-check" severity="danger"/* onClick={deleteSelectedPrices} *//>
+            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteSelectedPrices} />
         </React.Fragment>
     );
     return (
         <div className="   mb-3 md:mb-0" style={{ flex: 1 }}>
             <Toast ref={toast} />
             <div className="card ">
-                <Toolbar className="mb-4" start={leftToolbarTemplate}  end={rightToolbarTemplate}></Toolbar>
-                <DataTable ref={dt} value={ prices } selection={selectedPrices} onSelectionChange={(e) => {
+                <Toolbar className="mb-4" start={leftToolbarTemplate} end={rightToolbarTemplate}></Toolbar>
+                <DataTable ref={dt} value={prices} selection={selectedPrices} onSelectionChange={(e) => {
                     setSelectedPrices(e.value)
                 }}
                     dataKey="_id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
@@ -231,6 +229,6 @@ const AllPrices = () => {
             {priceDialog ? <AddPrice setPrices={setPrices} prices={prices} setHide={setHide} edit={edit} setEdit={setEdit} /> : <></>}
         </div>
     )
-   
+
 }
 export default AllPrices;

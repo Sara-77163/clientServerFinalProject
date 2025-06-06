@@ -35,7 +35,6 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
             setItemsProduct(_newDataProduct.map(product => (product.name)))
         }
     }
-
     const {
         handleSubmit,
         control,
@@ -66,6 +65,9 @@ const AddProduct = ({ setDetailList, detailList, setHide, edit, setEdit }) => {
                     setEdit(null)
                     updadataShoppingList({ _id: detailList._id, nameList: detailList.nameList, productsList: updateList, userId })
                 }
+            }
+            else{
+                alert("the product doesnt exist ")
             }
 
         }
